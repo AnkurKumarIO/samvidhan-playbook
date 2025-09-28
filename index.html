@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samvidhan Playbook - Learn the Constitution through Play</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .tricolor-bg {
+            background: linear-gradient(135deg, #FF9933 0%, #FFFFFF 33%, #FFFFFF 66%, #138808 100%);
+        }
+        
+        .chakra-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            opacity: 0.05;
+            animation: rotate 60s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .correct {
+            background: linear-gradient(135deg, #10B981, #059669);
+            color: white;
+        }
+        
+        .incorrect {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: white;
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .lifeline-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .lifeline-disabled:hover {
+            transform: none !important;
+        }
+        
+        .locked {
+            opacity: 0.6;
+            filter: grayscale(50%);
+        }
+        
+        .article-card {
+            transition: all 0.3s ease;
+        }
+        
+        .article-card:hover:not(.locked) {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+        
+        .badge-glow {
+            animation: badgeGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes badgeGlow {
+            from { box-shadow: 0 0 10px rgba(255, 193, 7, 0.5); }
+            to { box-shadow: 0 0 20px rgba(255, 193, 7, 0.8); }
+        }
+    </style>
+</head>
+<body class="min-h-screen tricolor-bg">
+    <!-- Rotating Ashoka Chakra Watermark -->
+    <div class="chakra-watermark">
+        <svg viewBox="0 0 100 100" fill="currentColor" class="w-full h-full text-blue-900">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="2"/>
+            <g transform="translate(50,50)">
+                <!-- 24 spokes of Ashoka Chakra -->
+                <g stroke="currentColor" stroke-width="1">
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(0)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(15)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(30)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(45)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(60)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(75)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(90)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(105)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(120)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(135)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(150)"/>
+                    <line x1="0" y1="-40" x2="0" y2="40" transform="rotate(165)"/>
+                </g>
+                <circle cx="0" cy="0" r="8" fill="currentColor"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-lg border-b-4 border-gradient-to-r from-orange-500 via-white to-green-600">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-green-600 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-blue-900">Samvidhan Playbook</h1>
+                        <p class="text-xs text-gray-600">Learn Constitution through Play</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <button onclick="goHome()" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">🏠 Home</button>
+                    <button onclick="showDifficultySelection()" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">🎮 Play</button>
+                    <button onclick="showLeaderboard()" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">🏆 Leaderboard</button>
+                    <button onclick="showArticleExplorer()" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">📜 Articles</button>
+                    <button onclick="showAbout()" class="text-gray-700 hover:text-blue-600 font-medium transition-colors">ℹ️ About</button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <button onclick="goHome(); toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 font-medium py-2 text-left">🏠 Home</button>
+                    <button onclick="showDifficultySelection(); toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 font-medium py-2 text-left">🎮 Play</button>
+                    <button onclick="showLeaderboard(); toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 font-medium py-2 text-left">🏆 Leaderboard</button>
+                    <button onclick="showArticleExplorer(); toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 font-medium py-2 text-left">📜 Articles</button>
+                    <button onclick="showAbout(); toggleMobileMenu()" class="text-gray-700 hover:text-blue-600 font-medium py-2 text-left">ℹ️ About</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Landing Page -->
+    <div id="landingPage" class="min-h-screen pt-16">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+            <!-- Animated Background Elements -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute top-20 left-10 w-20 h-20 bg-orange-200 rounded-full opacity-20 animate-pulse"></div>
+                <div class="absolute top-40 right-20 w-16 h-16 bg-green-200 rounded-full opacity-20 animate-pulse" style="animation-delay: 1s;"></div>
+                <div class="absolute bottom-40 left-20 w-24 h-24 bg-blue-200 rounded-full opacity-20 animate-pulse" style="animation-delay: 2s;"></div>
+            </div>
+            
+            <div class="text-center max-w-6xl mx-auto relative z-10">
+                <!-- Main Title with Indian Flag Colors -->
+                <div class="mb-8">
+                    <h1 class="text-6xl md:text-8xl font-bold mb-4 fade-in">
+                        <span class="bg-gradient-to-r from-orange-500 via-white to-green-600 bg-clip-text text-transparent">
+                            Samvidhan
+                        </span>
+                    </h1>
+                    <h2 class="text-4xl md:text-6xl font-bold text-blue-900 mb-4 fade-in">
+                        Playbook
+                    </h2>
+                </div>
+                
+                <!-- Subtitle -->
+                <p class="text-xl md:text-3xl text-blue-800 mb-12 fade-in max-w-4xl mx-auto">
+                    🇮🇳 Master the Indian Constitution through Interactive Learning & Fun Gameplay 🎮
+                </p>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col md:flex-row gap-6 justify-center items-center fade-in mb-16">
+                    <button onclick="showDifficultySelection()" class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-5 rounded-xl text-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl">
+                        🎮 Start Learning Journey
+                    </button>
+                    <button onclick="showLeaderboard()" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-10 py-5 rounded-xl text-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl">
+                        🏆 View Leaderboard
+                    </button>
+                    <button onclick="showArticleExplorer()" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-10 py-5 rounded-xl text-xl font-bold transition-all duration-300 transform hover:scale-105 shadow-2xl">
+                        📜 Explore Articles
+                    </button>
+                </div>
+                
+                <!-- Feature Highlights -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="text-4xl mb-4">⚖️</div>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2">Interactive Learning</h3>
+                        <p class="text-gray-700">Learn through real-life scenarios and engaging gameplay</p>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="text-4xl mb-4">🎯</div>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2">Multiple Levels</h3>
+                        <p class="text-gray-700">Progress from beginner to advanced constitutional knowledge</p>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-xl transform hover:scale-105 transition-all duration-300">
+                        <div class="text-4xl mb-4">🏅</div>
+                        <h3 class="text-xl font-bold text-blue-900 mb-2">Earn Badges</h3>
+                        <p class="text-gray-700">Unlock achievements and become a Constitution Champion</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Constitution Section -->
+        <section class="py-20 bg-white/90 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-blue-900 mb-6">
+                        🇮🇳 The Indian Constitution
+                    </h2>
+                    <p class="text-xl text-gray-700 max-w-3xl mx-auto">
+                        Discover the world's longest written constitution that guides the world's largest democracy
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+                    <!-- Constitution Info -->
+                    <div class="space-y-8">
+                        <div class="bg-gradient-to-r from-orange-50 to-green-50 rounded-2xl p-8 shadow-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="text-3xl mr-4">📜</div>
+                                <h3 class="text-2xl font-bold text-blue-900">Key Facts</h3>
+                            </div>
+                            <ul class="space-y-3 text-gray-700">
+                                <li class="flex items-center"><span class="text-orange-500 mr-2">•</span> Adopted on 26th November 1949</li>
+                                <li class="flex items-center"><span class="text-white mr-2">•</span> Came into effect on 26th January 1950</li>
+                                <li class="flex items-center"><span class="text-green-500 mr-2">•</span> Contains 395 Articles and 12 Schedules</li>
+                                <li class="flex items-center"><span class="text-orange-500 mr-2">•</span> Written by Dr. B.R. Ambedkar and team</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 shadow-lg">
+                            <div class="flex items-center mb-4">
+                                <div class="text-3xl mr-4">⚖️</div>
+                                <h3 class="text-2xl font-bold text-blue-900">Core Principles</h3>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="bg-white rounded-lg p-3 text-center shadow">
+                                    <div class="text-2xl mb-1">🏛️</div>
+                                    <div class="font-semibold text-blue-800">Sovereignty</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow">
+                                    <div class="text-2xl mb-1">🗳️</div>
+                                    <div class="font-semibold text-blue-800">Democracy</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow">
+                                    <div class="text-2xl mb-1">🤝</div>
+                                    <div class="font-semibold text-blue-800">Equality</div>
+                                </div>
+                                <div class="bg-white rounded-lg p-3 text-center shadow">
+                                    <div class="text-2xl mb-1">🕊️</div>
+                                    <div class="font-semibold text-blue-800">Secularism</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Visual Constitution -->
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-orange-100 via-white to-green-100 rounded-3xl p-8 shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                            <!-- Constitution Book Visual -->
+                            <div class="bg-gradient-to-r from-orange-600 to-green-600 rounded-2xl p-6 mb-6 text-white text-center">
+                                <div class="text-6xl mb-4">📖</div>
+                                <h3 class="text-2xl font-bold">Constitution of India</h3>
+                                <p class="text-orange-100">भारत का संविधान</p>
+                            </div>
+                            
+                            <!-- Preamble Preview -->
+                            <div class="bg-white rounded-xl p-6 shadow-inner">
+                                <h4 class="text-lg font-bold text-blue-900 mb-3 text-center">The Preamble</h4>
+                                <p class="text-sm text-gray-700 italic leading-relaxed">
+                                    "WE, THE PEOPLE OF INDIA, having solemnly resolved to constitute India into a 
+                                    <span class="font-semibold text-orange-600">SOVEREIGN SOCIALIST SECULAR DEMOCRATIC REPUBLIC</span> 
+                                    and to secure to all its citizens..."
+                                </p>
+                                <div class="text-center mt-4">
+                                    <button onclick="showPreambleModal()" class="text-blue-600 hover:text-blue-800 font-semibold text-sm">
+                                        Read Full Preamble →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-orange-200 rounded-full flex items-center justify-center text-2xl animate-bounce">
+                            ⚖️
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-green-200 rounded-full flex items-center justify-center text-2xl animate-bounce" style="animation-delay: 1s;">
+                            🏛️
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Fundamental Rights & Duties -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Fundamental Rights -->
+                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8 shadow-xl">
+                        <div class="text-center mb-6">
+                            <div class="text-5xl mb-3">🛡️</div>
+                            <h3 class="text-2xl font-bold text-blue-900">Fundamental Rights</h3>
+                            <p class="text-gray-600">Your Constitutional Protections</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">⚖️</span>
+                                <span class="font-medium text-gray-800">Right to Equality</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">🗣️</span>
+                                <span class="font-medium text-gray-800">Freedom of Speech</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">🕊️</span>
+                                <span class="font-medium text-gray-800">Freedom of Religion</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">📚</span>
+                                <span class="font-medium text-gray-800">Right to Education</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Fundamental Duties -->
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl p-8 shadow-xl">
+                        <div class="text-center mb-6">
+                            <div class="text-5xl mb-3">🤝</div>
+                            <h3 class="text-2xl font-bold text-green-900">Fundamental Duties</h3>
+                            <p class="text-gray-600">Your Constitutional Responsibilities</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">🇮🇳</span>
+                                <span class="font-medium text-gray-800">Respect National Symbols</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">🌱</span>
+                                <span class="font-medium text-gray-800">Protect Environment</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">🎓</span>
+                                <span class="font-medium text-gray-800">Promote Education</span>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 flex items-center shadow">
+                                <span class="text-2xl mr-3">☮️</span>
+                                <span class="font-medium text-gray-800">Maintain Harmony</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Game Page -->
+    <div id="gamePage" class="hidden min-h-screen pt-16 p-4">
+        <div class="max-w-5xl mx-auto">
+            <!-- Header -->
+            <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 mb-6 shadow-lg">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-blue-900">Samvidhan Playbook</h2>
+                    <button onclick="goHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        🏠 Home
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="bg-gray-200 rounded-full h-3 mb-4">
+                    <div id="progressBar" class="progress-bar bg-gradient-to-r from-orange-500 to-green-600 h-3 rounded-full" style="width: 0%"></div>
+                </div>
+                
+                <!-- Score and Question Counter -->
+                <div class="flex justify-between text-sm text-gray-600">
+                    <span>Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></span>
+                    <span>Score: <span id="score" class="font-bold text-blue-900">0</span></span>
+                </div>
+            </div>
+
+            <!-- Character & Lifelines Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+                <!-- Character Card -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                    <div class="text-center">
+                        <div id="avatarContainer" class="text-6xl mb-3">🎓</div>
+                        <h3 id="characterName" class="text-lg font-bold text-blue-900 mb-1">Riya</h3>
+                        <p id="characterContext" class="text-sm text-gray-600">College Student</p>
+                    </div>
+                </div>
+                
+                <!-- Lifelines -->
+                <div class="lg:col-span-3 bg-white/95 backdrop-blur-sm rounded-lg p-6 shadow-lg">
+                    <h3 class="text-lg font-bold text-blue-900 mb-4">🆘 Lifelines</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button id="fiftyFifty" onclick="useFiftyFifty()" class="lifeline-btn bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                            🎯 50-50
+                        </button>
+                        <button id="askConstitution" onclick="askConstitution()" class="lifeline-btn bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                            📖 Ask Constitution
+                        </button>
+                        <button id="skipQuestion" onclick="skipQuestion()" class="lifeline-btn bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-4 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                            ⏭️ Skip Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div id="questionCard" class="bg-white/95 backdrop-blur-sm rounded-lg p-8 mb-6 shadow-lg fade-in">
+                <h3 class="text-xl font-semibold text-blue-900 mb-6" id="questionText">Loading question...</h3>
+                
+                <!-- Constitution Hint -->
+                <div id="constitutionHint" class="hidden bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 rounded">
+                    <div class="flex items-center mb-2">
+                        <span class="text-2xl mr-2">📖</span>
+                        <span class="font-semibold text-blue-800">Constitution Says:</span>
+                    </div>
+                    <p id="hintText" class="text-blue-700 italic"></p>
+                </div>
+                
+                <!-- Timer -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+                        <span>Time remaining:</span>
+                        <span id="timer" class="font-bold">30s</span>
+                    </div>
+                    <div class="bg-gray-200 rounded-full h-2">
+                        <div id="timerBar" class="bg-gradient-to-r from-green-500 to-yellow-500 h-2 rounded-full transition-all duration-1000" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <!-- Answer Options -->
+                <div id="answerOptions" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+
+                <!-- Feedback -->
+                <div id="feedback" class="hidden p-4 rounded-lg mb-4"></div>
+
+                <!-- Next Button -->
+                <button id="nextButton" onclick="nextQuestion()" class="hidden bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    Next Question →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Page -->
+    <div id="resultsPage" class="hidden min-h-screen pt-16 flex items-center justify-center p-4">
+        <div class="text-center max-w-4xl mx-auto bg-white/95 backdrop-blur-sm rounded-lg p-8 shadow-lg">
+            <div class="text-6xl mb-4">🏆</div>
+            <h2 class="text-4xl font-bold text-blue-900 mb-4">Game Complete!</h2>
+            <div id="finalScore" class="text-2xl text-gray-700 mb-6"></div>
+            <div id="motivationalMessage" class="text-lg text-gray-600 mb-8"></div>
+            
+            <!-- New Badges Earned -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-blue-900 mb-4">🏅 Badges Earned This Round</h3>
+                <div id="badgeContainer" class="flex flex-wrap justify-center gap-4 mb-6">
+                    <!-- Badges will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Unlocked Articles -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-blue-900 mb-4">📜 New Articles Unlocked</h3>
+                <div id="unlockedArticlesList" class="mb-6">
+                    <!-- Articles will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button onclick="showDifficultySelection()" class="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    🔄 Play Again
+                </button>
+                <button onclick="showLeaderboard()" class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    🏆 View Leaderboard
+                </button>
+                <button onclick="goHome()" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+                    🏠 Home
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg p-8 max-w-2xl mx-auto">
+            <h3 class="text-2xl font-bold text-blue-900 mb-4">About Samvidhan Playbook</h3>
+            <p class="text-gray-700 mb-4">
+                Samvidhan Playbook is an interactive educational game designed to teach the Indian Constitution through engaging scenarios and real-life situations. Learn about fundamental rights, duties, and constitutional principles while having fun!
+            </p>
+            <p class="text-gray-700 mb-6">
+                Each question presents a scenario where constitutional knowledge is applied, helping you understand how the Constitution protects citizens in everyday situations.
+            </p>
+            <button onclick="closeModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md mx-auto">
+            <h3 class="text-2xl font-bold text-blue-900 mb-4">Contact Us</h3>
+            <p class="text-gray-700 mb-4">
+                Have questions or suggestions? We'd love to hear from you!
+            </p>
+            <div class="space-y-2 text-gray-600 mb-6">
+                <p>📧 Email: info@samvidhanplaybook.com</p>
+                <p>🌐 Website: www.samvidhanplaybook.com</p>
+                <p>📱 Follow us on social media for updates!</p>
+            </div>
+            <button onclick="closeModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Game State Variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 30;
+        let timer;
+        let selectedAnswer = null;
+        let currentDifficulty = 'beginner';
+        let usedLifelines = [];
+        let speedAnswers = 0;
+        
+        // Lifelines
+        let lifelines = {
+            fiftyFifty: true,
+            askConstitution: true,
+            skipQuestion: true
+        };
+
+        // Character Data for Visual Storytelling
+        const characters = {
+            student: { avatar: '🎓', name: 'Riya', context: 'College Student' },
+            worker: { avatar: '👷', name: 'Amit', context: 'Factory Worker' },
+            teacher: { avatar: '👩‍🏫', name: 'Priya', context: 'School Teacher' },
+            citizen: { avatar: '👨‍💼', name: 'Rahul', context: 'Citizen' },
+            child: { avatar: '🧒', name: 'Arjun', context: 'School Child' },
+            activist: { avatar: '✊', name: 'Sunita', context: 'Social Activist' }
+        };
+
+        // Questions by Difficulty Level
+        const questionsByDifficulty = {
+            beginner: [
+                {
+                    character: 'student',
+                    question: "Riya is denied entry to a public library because of her caste. Which fundamental right protects her?",
+                    options: ["Right to Freedom of Speech", "Right to Equality", "Right to Education", "Right to Privacy"],
+                    correct: 1,
+                    hint: "Article 15 prohibits discrimination based on caste, religion, race, sex, or place of birth.",
+                    explanation: "Article 15 of the Constitution prohibits discrimination on grounds of religion, race, caste, sex, or place of birth. The Right to Equality ensures equal access to public places."
+                },
+                {
+                    character: 'worker',
+                    question: "Amit wants to start a peaceful protest against a government policy. Which right allows him to do this?",
+                    options: ["Right to Freedom of Speech and Expression", "Right to Life", "Right to Property", "Right to Work"],
+                    correct: 0,
+                    hint: "Article 19(1)(a) covers freedom of speech, expression, and peaceful assembly.",
+                    explanation: "Article 19(1)(a) guarantees freedom of speech and expression, which includes the right to peaceful protest and assembly."
+                },
+                {
+                    character: 'teacher',
+                    question: "Priya's employer forces her to work without pay. Which article prohibits this?",
+                    options: ["Article 21", "Article 19", "Article 23", "Article 25"],
+                    correct: 2,
+                    hint: "This article specifically deals with prohibition of forced labor and human trafficking.",
+                    explanation: "Article 23 prohibits traffic in human beings, forced labor, and other similar forms of forced labor."
+                },
+                {
+                    character: 'child',
+                    question: "A child is denied school admission due to inability to pay fees. Which right supports free education?",
+                    options: ["Article 39", "Article 41", "Article 21A", "Article 47"],
+                    correct: 2,
+                    hint: "This article was added as a fundamental right for free and compulsory education.",
+                    explanation: "Article 21A guarantees free and compulsory education for children aged 6-14 years."
+                },
+                {
+                    character: 'citizen',
+                    question: "Rahul practices a different religion. Which right protects his religious freedom?",
+                    options: ["Right to Equality", "Right to Freedom of Religion", "Right to Life", "Right to Education"],
+                    correct: 1,
+                    hint: "Articles 25-28 deal with religious freedom and rights of minorities.",
+                    explanation: "Articles 25-28 guarantee freedom of religion, including the right to practice, profess, and propagate religion."
+                }
+            ],
+            intermediate: [
+                {
+                    character: 'activist',
+                    question: "A factory pollutes the river affecting people's health. Which right can citizens invoke?",
+                    options: ["Right to Property", "Right to Work", "Right to Life", "Right to Privacy"],
+                    correct: 2,
+                    hint: "Supreme Court has expanded this right to include environmental protection.",
+                    explanation: "Article 21 (Right to Life) has been interpreted by courts to include the right to a clean and healthy environment."
+                },
+                {
+                    character: 'citizen',
+                    question: "What does 'Socialist' in the Preamble signify?",
+                    options: ["Economic equality only", "Social and economic justice", "Government ownership", "No private property"],
+                    correct: 1,
+                    hint: "It was added by the 42nd Amendment and relates to justice and equality.",
+                    explanation: "Socialist in the Preamble means social and economic justice, ensuring equal opportunities and reducing inequalities."
+                },
+                {
+                    character: 'student',
+                    question: "Which Directive Principle asks the state to secure a uniform civil code?",
+                    options: ["Article 44", "Article 45", "Article 46", "Article 47"],
+                    correct: 0,
+                    hint: "This article deals with uniform laws for all citizens regardless of religion.",
+                    explanation: "Article 44 directs the state to secure a uniform civil code for all citizens throughout India."
+                },
+                {
+                    character: 'worker',
+                    question: "Under which article can Parliament amend the Constitution?",
+                    options: ["Article 356", "Article 368", "Article 370", "Article 352"],
+                    correct: 1,
+                    hint: "This article specifically deals with the power and procedure of constitutional amendments.",
+                    explanation: "Article 368 gives Parliament the power to amend the Constitution and lays down the procedure."
+                },
+                {
+                    character: 'teacher',
+                    question: "Which fundamental duty was added by the 86th Amendment?",
+                    options: ["Protect environment", "Respect national symbols", "Provide education to children", "Promote harmony"],
+                    correct: 2,
+                    hint: "This amendment also made education a fundamental right under Article 21A.",
+                    explanation: "The 86th Amendment added the duty of parents/guardians to provide education to children aged 6-14."
+                }
+            ],
+            advanced: [
+                {
+                    character: 'activist',
+                    question: "In Kesavananda Bharati case, the Supreme Court established which doctrine?",
+                    options: ["Separation of Powers", "Basic Structure", "Judicial Review", "Rule of Law"],
+                    correct: 1,
+                    hint: "This landmark 1973 case limited Parliament's power to amend the Constitution.",
+                    explanation: "The Kesavananda Bharati case established the Basic Structure doctrine, limiting Parliament's amendment powers."
+                },
+                {
+                    character: 'citizen',
+                    question: "Which case established the Right to Privacy as a fundamental right?",
+                    options: ["Maneka Gandhi", "Puttaswamy", "Minerva Mills", "Golak Nath"],
+                    correct: 1,
+                    hint: "This 2017 case involved Aadhaar and privacy concerns.",
+                    explanation: "Justice K.S. Puttaswamy vs Union of India (2017) established privacy as a fundamental right under Article 21."
+                },
+                {
+                    character: 'student',
+                    question: "The 73rd Amendment deals with which governance system?",
+                    options: ["Urban local bodies", "Panchayati Raj", "Cooperative societies", "Election Commission"],
+                    correct: 1,
+                    hint: "This amendment strengthened rural local self-government institutions.",
+                    explanation: "The 73rd Amendment (1992) gave constitutional status to Panchayati Raj institutions."
+                },
+                {
+                    character: 'worker',
+                    question: "Which article allows the President to seek Supreme Court's opinion?",
+                    options: ["Article 143", "Article 144", "Article 145", "Article 146"],
+                    correct: 0,
+                    hint: "This is the advisory jurisdiction of the Supreme Court.",
+                    explanation: "Article 143 empowers the President to seek the Supreme Court's advisory opinion on constitutional matters."
+                },
+                {
+                    character: 'teacher',
+                    question: "The concept of 'Procedure Established by Law' vs 'Due Process' was clarified in which case?",
+                    options: ["AK Gopalan", "Maneka Gandhi", "Minerva Mills", "Shankari Prasad"],
+                    correct: 1,
+                    hint: "This case expanded the interpretation of Article 21 beyond mere procedure.",
+                    explanation: "Maneka Gandhi case (1978) established that procedure must be fair, just and reasonable, not just legally established."
+                }
+            ]
+        };
+
+        // Badge System
+        const badges = [
+            { id: 'first_game', name: 'Constitution Rookie', icon: '🌟', requirement: 'complete_first' },
+            { id: 'scorer', name: 'Rights Defender', icon: '🛡️', requirement: 70 },
+            { id: 'expert', name: 'Constitution Expert', icon: '🎓', requirement: 90 },
+            { id: 'intermediate', name: 'Justice Seeker', icon: '⚖️', requirement: 'intermediate' },
+            { id: 'advanced', name: 'Samvidhan Champion', icon: '🏆', requirement: 'advanced' },
+            { id: 'speed', name: 'Quick Thinker', icon: '⚡', requirement: 'speed' },
+            { id: 'no_lifelines', name: 'Self Reliant', icon: '💪', requirement: 'no_lifelines' }
+        ];
+
+        // Articles Data for Explorer
+        const articles = [
+            { id: 14, title: 'Equality before Law', summary: 'All persons are equal before law and entitled to equal protection of laws.', unlockScore: 0 },
+            { id: 15, title: 'Prohibition of Discrimination', summary: 'No discrimination on grounds of religion, race, caste, sex or place of birth.', unlockScore: 50 },
+            { id: 19, title: 'Freedom of Speech', summary: 'Right to freedom of speech, expression, assembly, association, movement and profession.', unlockScore: 100 },
+            { id: 21, title: 'Right to Life', summary: 'No person shall be deprived of life or personal liberty except by procedure established by law.', unlockScore: 150 },
+            { id: 23, title: 'Prohibition of Forced Labor', summary: 'Prohibition of traffic in human beings and forced labor.', unlockScore: 200 },
+            { id: 25, title: 'Freedom of Religion', summary: 'Freedom of conscience and right to freely profess, practice and propagate religion.', unlockScore: 250 },
+            { id: 32, title: 'Constitutional Remedies', summary: 'Right to constitutional remedies - the heart and soul of the Constitution.', unlockScore: 300 },
+            { id: 44, title: 'Uniform Civil Code', summary: 'State shall endeavor to secure uniform civil code for all citizens.', unlockScore: 350 },
+            { id: 51, title: 'Fundamental Duties', summary: 'Duties of every citizen including respecting Constitution, national symbols and promoting harmony.', unlockScore: 400 }
+        ];
+
+        // Player Statistics
+        let playerStats = JSON.parse(localStorage.getItem('samvidhanStats')) || {
+            gamesPlayed: 0,
+            totalScore: 0,
+            bestScore: 0,
+            badges: [],
+            unlockedArticles: [14] // Article 14 unlocked by default
+        };
+
+        let questions = [];
+
+        // Navigation functions
+        function showDifficultySelection() {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('difficultyPage').classList.remove('hidden');
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+        }
+
+        function showLeaderboard() {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('leaderboardPage').classList.remove('hidden');
+            loadLeaderboard();
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+        }
+
+        function showArticleExplorer() {
+            document.getElementById('landingPage').classList.add('hidden');
+            document.getElementById('articleExplorerPage').classList.remove('hidden');
+            loadArticleExplorer();
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+        }
+
+        function startGame(difficulty = 'beginner') {
+            currentDifficulty = difficulty;
+            questions = [...questionsByDifficulty[difficulty]];
+            
+            // Reset game state
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAnswer = null;
+            usedLifelines = [];
+            speedAnswers = 0;
+            
+            // Reset lifelines
+            lifelines = {
+                fiftyFifty: true,
+                askConstitution: true,
+                skipQuestion: true
+            };
+            
+            document.getElementById('difficultyPage').classList.add('hidden');
+            document.getElementById('gamePage').classList.remove('hidden');
+            updateLifelineButtons();
+            loadQuestion();
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const character = characters[question.character];
+            
+            // Update character display
+            document.getElementById('avatarContainer').textContent = character.avatar;
+            document.getElementById('characterName').textContent = character.name;
+            document.getElementById('characterContext').textContent = character.context;
+            
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('totalQuestions').textContent = questions.length;
+            document.getElementById('score').textContent = score;
+            
+            // Update progress bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Load answer options
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'question-card bg-white border-2 border-gray-200 hover:border-blue-400 p-4 rounded-lg text-left transition-all duration-300';
+                button.innerHTML = `<span class="font-semibold text-blue-900">${String.fromCharCode(65 + index)}.</span> ${option}`;
+                button.onclick = () => selectAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+
+            // Reset feedback and next button
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('nextButton').classList.add('hidden');
+            document.getElementById('constitutionHint').classList.add('hidden');
+            selectedAnswer = null;
+
+            // Start timer
+            startTimer();
+        }
+
+        // Lifeline functions
+        function updateLifelineButtons() {
+            document.getElementById('fiftyFifty').classList.toggle('lifeline-disabled', !lifelines.fiftyFifty);
+            document.getElementById('askConstitution').classList.toggle('lifeline-disabled', !lifelines.askConstitution);
+            document.getElementById('skipQuestion').classList.toggle('lifeline-disabled', !lifelines.skipQuestion);
+        }
+
+        function useFiftyFifty() {
+            if (!lifelines.fiftyFifty) return;
+            
+            lifelines.fiftyFifty = false;
+            usedLifelines.push('fiftyFifty');
+            updateLifelineButtons();
+            
+            const question = questions[currentQuestionIndex];
+            const correctIndex = question.correct;
+            const buttons = document.querySelectorAll('#answerOptions button');
+            
+            // Remove two incorrect options
+            let removedCount = 0;
+            buttons.forEach((button, index) => {
+                if (index !== correctIndex && removedCount < 2) {
+                    button.style.opacity = '0.3';
+                    button.disabled = true;
+                    removedCount++;
+                }
+            });
+        }
+
+        function askConstitution() {
+            if (!lifelines.askConstitution) return;
+            
+            lifelines.askConstitution = false;
+            usedLifelines.push('askConstitution');
+            updateLifelineButtons();
+            
+            const question = questions[currentQuestionIndex];
+            document.getElementById('hintText').textContent = question.hint;
+            document.getElementById('constitutionHint').classList.remove('hidden');
+        }
+
+        function skipQuestion() {
+            if (!lifelines.skipQuestion) return;
+            
+            lifelines.skipQuestion = false;
+            usedLifelines.push('skipQuestion');
+            updateLifelineButtons();
+            
+            nextQuestion();
+        }
+
+        function selectAnswer(answerIndex, buttonElement) {
+            if (selectedAnswer !== null) return; // Prevent multiple selections
+
+            selectedAnswer = answerIndex;
+            clearInterval(timer);
+
+            // Track speed answers
+            if (timeLeft > 20) {
+                speedAnswers++;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const isCorrect = answerIndex === question.correct;
+            
+            // Update score
+            if (isCorrect) {
+                score += 10;
+                // Bonus points for speed
+                if (timeLeft > 20) score += 5;
+                document.getElementById('score').textContent = score;
+            }
+
+            // Style the selected answer
+            const allButtons = document.querySelectorAll('#answerOptions button');
+            allButtons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === question.correct) {
+                    btn.classList.add('correct');
+                } else if (index === answerIndex && !isCorrect) {
+                    btn.classList.add('incorrect');
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById('feedback');
+            feedback.className = `p-4 rounded-lg mb-4 ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
+            feedback.innerHTML = `
+                <div class="font-semibold mb-2">${isCorrect ? '✅ Correct!' : '❌ Incorrect'}</div>
+                <div>${question.explanation}</div>
+                ${timeLeft > 20 && isCorrect ? '<div class="text-sm mt-2">⚡ Speed bonus: +5 points!</div>' : ''}
+            `;
+            feedback.classList.remove('hidden');
+
+            // Show next button
+            document.getElementById('nextButton').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            document.getElementById('timer').textContent = timeLeft + 's';
+            document.getElementById('timerBar').style.width = '100%';
+
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').textContent = timeLeft + 's';
+                document.getElementById('timerBar').style.width = (timeLeft / 30 * 100) + '%';
+
+                if (timeLeft <= 10) {
+                    document.getElementById('timerBar').className = 'bg-gradient-to-r from-red-500 to-red-600 h-2 rounded-full transition-all duration-1000';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    if (selectedAnswer === null) {
+                        selectAnswer(-1, null); // Auto-select wrong answer
+                    }
+                }
+            }, 1000);
+        }
+
+        function showResults() {
+            document.getElementById('gamePage').classList.add('hidden');
+            document.getElementById('resultsPage').classList.remove('hidden');
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+
+            const maxScore = questions.length * 10;
+            const percentage = (score / maxScore) * 100;
+            document.getElementById('finalScore').textContent = `Your Score: ${score}/${maxScore} (${percentage.toFixed(1)}%)`;
+
+            // Update player stats
+            playerStats.gamesPlayed++;
+            playerStats.totalScore += score;
+            if (score > playerStats.bestScore) {
+                playerStats.bestScore = score;
+            }
+
+            // Check for new badges
+            const newBadges = checkBadges(percentage);
+            displayBadges(newBadges);
+
+            // Check for unlocked articles
+            const newArticles = checkUnlockedArticles();
+            displayUnlockedArticles(newArticles);
+
+            // Save stats
+            localStorage.setItem('samvidhanStats', JSON.stringify(playerStats));
+
+            let message = "";
+            if (percentage >= 90) {
+                message = "Outstanding! You're a true Constitution Guardian! 🏆";
+            } else if (percentage >= 70) {
+                message = "Great job! You have excellent knowledge of the Constitution! 🌟";
+            } else if (percentage >= 50) {
+                message = "Good effort! Keep learning to become a Constitution expert! 📚";
+            } else {
+                message = "Keep practicing! Every step towards understanding the Constitution matters! 💪";
+            }
+
+            document.getElementById('motivationalMessage').textContent = message;
+        }
+
+        function checkBadges(percentage) {
+            const newBadges = [];
+            
+            badges.forEach(badge => {
+                if (!playerStats.badges.includes(badge.id)) {
+                    let earned = false;
+                    
+                    switch(badge.requirement) {
+                        case 70:
+                        case 90:
+                            earned = percentage >= badge.requirement;
+                            break;
+                        case 'intermediate':
+                            earned = currentDifficulty === 'intermediate';
+                            break;
+                        case 'advanced':
+                            earned = currentDifficulty === 'advanced';
+                            break;
+                        case 'speed':
+                            earned = speedAnswers >= 5;
+                            break;
+                        case 'no_lifelines':
+                            earned = usedLifelines.length === 0;
+                            break;
+                    }
+                    
+                    if (earned) {
+                        playerStats.badges.push(badge.id);
+                        newBadges.push(badge);
+                    }
+                }
+            });
+            
+            return newBadges;
+        }
+
+        function displayBadges(newBadges) {
+            const container = document.getElementById('badgeContainer');
+            container.innerHTML = '';
+            
+            if (newBadges.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">No new badges earned this round</p>';
+                return;
+            }
+            
+            newBadges.forEach(badge => {
+                const badgeElement = document.createElement('div');
+                badgeElement.className = 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-4 py-2 rounded-lg text-center badge-glow';
+                badgeElement.innerHTML = `
+                    <div class="text-2xl mb-1">${badge.icon}</div>
+                    <div class="font-semibold text-sm">${badge.name}</div>
+                `;
+                container.appendChild(badgeElement);
+            });
+        }
+
+        function checkUnlockedArticles() {
+            const newArticles = [];
+            
+            articles.forEach(article => {
+                if (!playerStats.unlockedArticles.includes(article.id) && playerStats.totalScore >= article.unlockScore) {
+                    playerStats.unlockedArticles.push(article.id);
+                    newArticles.push(article);
+                }
+            });
+            
+            return newArticles;
+        }
+
+        function displayUnlockedArticles(newArticles) {
+            const container = document.getElementById('unlockedArticlesList');
+            
+            if (newArticles.length === 0) {
+                container.innerHTML = '<p class="text-gray-500">No new articles unlocked</p>';
+                return;
+            }
+            
+            container.innerHTML = newArticles.map(article => 
+                `<div class="bg-blue-100 px-3 py-1 rounded-lg inline-block mr-2 mb-2">Article ${article.id}: ${article.title}</div>`
+            ).join('');
+        }
+
+        function loadLeaderboard() {
+            // Simulate leaderboard data (in a real app, this would come from a server)
+            const topPlayers = [
+                { name: "Constitution Master", score: 200, badges: 6 },
+                { name: "Rights Defender", score: 180, badges: 5 },
+                { name: "Justice Seeker", score: 165, badges: 4 },
+                { name: "Law Scholar", score: 150, badges: 4 },
+                { name: "Civic Champion", score: 140, badges: 3 }
+            ];
+            
+            const container = document.getElementById('topPlayersList');
+            container.innerHTML = '';
+            
+            topPlayers.forEach((player, index) => {
+                const playerElement = document.createElement('div');
+                playerElement.className = 'flex items-center justify-between bg-gray-50 p-4 rounded-lg';
+                playerElement.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="text-2xl mr-4">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</div>
+                        <div>
+                            <div class="font-semibold">${player.name}</div>
+                            <div class="text-sm text-gray-600">${player.badges} badges earned</div>
+                        </div>
+                    </div>
+                    <div class="text-xl font-bold text-blue-600">${player.score}</div>
+                `;
+                container.appendChild(playerElement);
+            });
+            
+            // Update player stats display
+            document.getElementById('totalGamesPlayed').textContent = playerStats.gamesPlayed;
+            document.getElementById('bestScore').textContent = playerStats.bestScore;
+            document.getElementById('totalBadges').textContent = playerStats.badges.length;
+            document.getElementById('articlesUnlockedCount').textContent = playerStats.unlockedArticles.length;
+        }
+
+        function loadArticleExplorer() {
+            const container = document.getElementById('articlesGrid');
+            container.innerHTML = '';
+            
+            articles.forEach(article => {
+                const isUnlocked = playerStats.unlockedArticles.includes(article.id);
+                const articleElement = document.createElement('div');
+                articleElement.className = `article-card bg-white rounded-lg p-6 shadow-lg ${isUnlocked ? '' : 'locked'}`;
+                
+                if (isUnlocked) {
+                    articleElement.innerHTML = `
+                        <div class="text-3xl mb-3">📜</div>
+                        <h3 class="text-lg font-semibold text-blue-900 mb-2">Article ${article.id}</h3>
+                        <h4 class="text-md font-medium text-gray-700 mb-3">${article.title}</h4>
+                        <p class="text-sm text-gray-600">${article.summary}</p>
+                    `;
+                } else {
+                    articleElement.innerHTML = `
+                        <div class="text-3xl mb-3">🔒</div>
+                        <h3 class="text-lg font-semibold text-gray-500 mb-2">Article ${article.id}</h3>
+                        <h4 class="text-md font-medium text-gray-400 mb-3">Locked</h4>
+                        <p class="text-sm text-gray-400">Score ${article.unlockScore} total points to unlock</p>
+                    `;
+                }
+                
+                container.appendChild(articleElement);
+            });
+        }
+
+        function restartGame() {
+            // Reset game state
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAnswer = null;
+            usedLifelines = [];
+            speedAnswers = 0;
+            
+            // Reset lifelines
+            lifelines = {
+                fiftyFifty: true,
+                askConstitution: true,
+                skipQuestion: true
+            };
+            
+            document.getElementById('resultsPage').classList.add('hidden');
+            document.getElementById('gamePage').classList.remove('hidden');
+            updateLifelineButtons();
+            loadQuestion();
+        }
+
+        function goHome() {
+            document.getElementById('gamePage').classList.add('hidden');
+            document.getElementById('resultsPage').classList.add('hidden');
+            document.getElementById('leaderboardPage').classList.add('hidden');
+            document.getElementById('articleExplorerPage').classList.add('hidden');
+            document.getElementById('difficultyPage').classList.add('hidden');
+            document.getElementById('landingPage').classList.remove('hidden');
+            clearInterval(timer);
+            // Scroll to top of the page
+            window.scrollTo(0, 0);
+        }
+
+        function showAbout() {
+            document.getElementById('aboutModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('aboutModal').classList.add('hidden');
+            document.getElementById('contactModal').classList.add('hidden');
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const aboutModal = document.getElementById('aboutModal');
+            const contactModal = document.getElementById('contactModal');
+            if (event.target === aboutModal) {
+                aboutModal.classList.add('hidden');
+            }
+            if (event.target === contactModal) {
+                contactModal.classList.add('hidden');
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Preamble Modal
+        function showPreambleModal() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-8 max-w-3xl mx-auto max-h-96 overflow-y-auto">
+                    <h3 class="text-2xl font-bold text-blue-900 mb-4 text-center">The Preamble</h3>
+                    <div class="text-gray-700 leading-relaxed">
+                        <p class="mb-4 italic">
+                            "WE, THE PEOPLE OF INDIA, having solemnly resolved to constitute India into a 
+                            <strong>SOVEREIGN SOCIALIST SECULAR DEMOCRATIC REPUBLIC</strong> and to secure to all its citizens:
+                        </p>
+                        <ul class="list-disc list-inside space-y-2 mb-4">
+                            <li><strong>JUSTICE</strong>, social, economic and political;</li>
+                            <li><strong>LIBERTY</strong> of thought, expression, belief, faith and worship;</li>
+                            <li><strong>EQUALITY</strong> of status and of opportunity;</li>
+                            <li>and to promote among them all <strong>FRATERNITY</strong> assuring the dignity of the individual and the unity and integrity of the Nation;</li>
+                        </ul>
+                        <p class="italic">
+                            IN OUR CONSTITUENT ASSEMBLY this twenty-sixth day of November, 1949, do 
+                            <strong>HEREBY ADOPT, ENACT AND GIVE TO OURSELVES THIS CONSTITUTION</strong>."
+                        </p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg mx-auto block">
+                        Close
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Difficulty Selection Page
+        function createDifficultyPage() {
+            return `
+                <div id="difficultyPage" class="hidden min-h-screen pt-16 p-4">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">Choose Your Level</h2>
+                            <p class="text-xl text-gray-700">Select difficulty based on your constitutional knowledge</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Beginner Level -->
+                            <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer" onclick="startGame('beginner')">
+                                <div class="text-center">
+                                    <div class="text-6xl mb-4">🌱</div>
+                                    <h3 class="text-2xl font-bold text-green-800 mb-4">Beginner</h3>
+                                    <p class="text-gray-700 mb-6">Basic rights, duties, and fundamental concepts</p>
+                                    <ul class="text-sm text-gray-600 space-y-2 mb-6">
+                                        <li>• Fundamental Rights</li>
+                                        <li>• Basic Duties</li>
+                                        <li>• Simple Scenarios</li>
+                                        <li>• 5 Questions</li>
+                                    </ul>
+                                    <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold w-full">
+                                        Start Beginner
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Intermediate Level -->
+                            <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8 shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer" onclick="startGame('intermediate')">
+                                <div class="text-center">
+                                    <div class="text-6xl mb-4">🎯</div>
+                                    <h3 class="text-2xl font-bold text-orange-800 mb-4">Intermediate</h3>
+                                    <p class="text-gray-700 mb-6">Preamble, DPSP, and constitutional principles</p>
+                                    <ul class="text-sm text-gray-600 space-y-2 mb-6">
+                                        <li>• Directive Principles</li>
+                                        <li>• Preamble Details</li>
+                                        <li>• Amendments</li>
+                                        <li>• 5 Questions</li>
+                                    </ul>
+                                    <button class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-semibold w-full">
+                                        Start Intermediate
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Advanced Level -->
+                            <div class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer" onclick="startGame('advanced')">
+                                <div class="text-center">
+                                    <div class="text-6xl mb-4">🏆</div>
+                                    <h3 class="text-2xl font-bold text-red-800 mb-4">Advanced</h3>
+                                    <p class="text-gray-700 mb-6">Landmark judgments and complex constitutional law</p>
+                                    <ul class="text-sm text-gray-600 space-y-2 mb-6">
+                                        <li>• Supreme Court Cases</li>
+                                        <li>• Constitutional Doctrines</li>
+                                        <li>• Complex Scenarios</li>
+                                        <li>• 5 Questions</li>
+                                    </ul>
+                                    <button class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold w-full">
+                                        Start Advanced
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-12">
+                            <button onclick="goHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold">
+                                ← Back to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Leaderboard Page
+        function createLeaderboardPage() {
+            return `
+                <div id="leaderboardPage" class="hidden min-h-screen pt-16 p-4">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">🏆 Leaderboard</h2>
+                            <p class="text-xl text-gray-700">Top Constitution Champions</p>
+                        </div>
+                        
+                        <!-- Player Stats -->
+                        <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 mb-8 shadow-xl">
+                            <h3 class="text-2xl font-bold text-blue-900 mb-6 text-center">Your Statistics</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-blue-600" id="totalGamesPlayed">0</div>
+                                    <div class="text-sm text-gray-600">Games Played</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-green-600" id="bestScore">0</div>
+                                    <div class="text-sm text-gray-600">Best Score</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-orange-600" id="totalBadges">0</div>
+                                    <div class="text-sm text-gray-600">Badges Earned</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl font-bold text-purple-600" id="articlesUnlockedCount">1</div>
+                                    <div class="text-sm text-gray-600">Articles Unlocked</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Top Players -->
+                        <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-8 shadow-xl">
+                            <h3 class="text-2xl font-bold text-blue-900 mb-6 text-center">Top Players</h3>
+                            <div id="topPlayersList" class="space-y-4">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-8">
+                            <button onclick="goHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold">
+                                ← Back to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Article Explorer Page
+        function createArticleExplorerPage() {
+            return `
+                <div id="articleExplorerPage" class="hidden min-h-screen pt-16 p-4">
+                    <div class="max-w-6xl mx-auto">
+                        <div class="text-center mb-12">
+                            <h2 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">📜 Article Explorer</h2>
+                            <p class="text-xl text-gray-700">Unlock constitutional articles by earning points</p>
+                        </div>
+                        
+                        <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="text-center mt-12">
+                            <button onclick="goHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold">
+                                ← Back to Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize the game
+        window.onload = function() {
+            // Add missing pages to the DOM
+            document.body.insertAdjacentHTML('beforeend', createDifficultyPage());
+            document.body.insertAdjacentHTML('beforeend', createLeaderboardPage());
+            document.body.insertAdjacentHTML('beforeend', createArticleExplorerPage());
+            
+            // Load initial stats display
+            if (playerStats.gamesPlayed > 0) {
+                loadLeaderboard();
+                loadArticleExplorer();
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9862ba3127483fba',t:'MTc1OTA1NzEyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
